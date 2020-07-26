@@ -1,0 +1,1971 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+      
+      
+        <link rel="canonical" href="https://toolkit.fluxcd.io/components/kustomize/kustomization/">
+      
+      
+        <meta name="author" content="The Flux CD contributors">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
+    
+    
+      
+        <title>Kustomization CRD - GitOps Toolkit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.89dc9fe3.min.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../_static/custom.css">
+    
+    
+      
+    
+    
+
+<meta property="og:url" content="https://toolkit.fluxcd.io/components/kustomize/kustomization/">
+
+<meta property="og:title" content="Kustomization CRD - GitOps Toolkit">
+
+<meta property="og:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta property="og:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta property="og:image:alt" content="GitOps Toolkit">
+<meta property="og:image:type" content="image/png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@stefanprodan">
+<meta name="twitter:creator" content="@stefanprodan">
+
+<meta property="twitter:title" content="Kustomization CRD - GitOps Toolkit">
+
+<meta name="twitter:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta name="twitter:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta name="twitter:image:alt" content="GitOps Toolkit">
+
+
+  </head>
+  
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kustomization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-header-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            GitOps Toolkit
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Kustomization CRD
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    GitOps Toolkit
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../get-started/" title="Get Started" class="md-nav__link">
+      Get Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/helmreleases/" title="Manage Helm Releases" class="md-nav__link">
+      Manage Helm Releases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/notifications/" title="Setup Notifications" class="md-nav__link">
+      Setup Notifications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/webhook-receivers/" title="Setup Webhook Receivers" class="md-nav__link">
+      Setup Webhook Receivers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/sealed-secrets/" title="Sealed Secrets" class="md-nav__link">
+      Sealed Secrets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Toolkit Components
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit Components" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit Components
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Source Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Source Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Source Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/gitrepositories/" title="GitRepository CRD" class="md-nav__link">
+      GitRepository CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/helmrepositories/" title="HelmRepository CRD" class="md-nav__link">
+      HelmRepository CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/helmcharts/" title="HelmChart CRD" class="md-nav__link">
+      HelmChart CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/api/" title="Source API Reference" class="md-nav__link">
+      Source API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2" checked>
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Kustomize Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Kustomize Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Kustomize Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Kustomization CRD
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Kustomization CRD" class="md-nav__link md-nav__link--active">
+      Kustomization CRD
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#specification" class="md-nav__link">
+    Specification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-reference" class="md-nav__link">
+    Source reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generate-kustomizationyaml" class="md-nav__link">
+    Generate kustomization.yaml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    Reconciliation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#garbage-collection" class="md-nav__link">
+    Garbage collection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-assessment" class="md-nav__link">
+    Health assessment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kustomization-dependencies" class="md-nav__link">
+    Kustomization dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-based-access-control" class="md-nav__link">
+    Role-based access control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/" title="Kustomize API Reference" class="md-nav__link">
+      Kustomize API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Helm Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Helm Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Helm Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/helmreleases/" title="HelmRelease CRD" class="md-nav__link">
+      HelmRelease CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/api/" title="Helm API Reference" class="md-nav__link">
+      Helm API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      Notification Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Notification Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Notification Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/event/" title="Event" class="md-nav__link">
+      Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/provider/" title="Provider CRD" class="md-nav__link">
+      Provider CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/alert/" title="Alert CRD" class="md-nav__link">
+      Alert CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/receiver/" title="Receiver CRD" class="md-nav__link">
+      Receiver CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/api/" title="Notification API Reference" class="md-nav__link">
+      Notification API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Toolkit CLI
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit CLI" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit CLI
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap/" title="Bootstrap" class="md-nav__link">
+      Bootstrap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_github/" title="Bootstrap github" class="md-nav__link">
+      Bootstrap github
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_gitlab/" title="Bootstrap gitlab" class="md-nav__link">
+      Bootstrap gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_check/" title="Check" class="md-nav__link">
+      Check
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create/" title="Create" class="md-nav__link">
+      Create
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_kustomization/" title="Create kustomization" class="md-nav__link">
+      Create kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_helmrelease/" title="Create helmrelease" class="md-nav__link">
+      Create helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source/" title="Create source" class="md-nav__link">
+      Create source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_git/" title="Create source git" class="md-nav__link">
+      Create source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_helm/" title="Create source helm" class="md-nav__link">
+      Create source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete/" title="Delete" class="md-nav__link">
+      Delete
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_kustomization/" title="Delete kustomization" class="md-nav__link">
+      Delete kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_helmrelease/" title="Delete helmrelease" class="md-nav__link">
+      Delete helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source/" title="Delete source" class="md-nav__link">
+      Delete source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_git/" title="Delete source git" class="md-nav__link">
+      Delete source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_helm/" title="Delete source helm" class="md-nav__link">
+      Delete source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export/" title="Export" class="md-nav__link">
+      Export
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_kustomization/" title="Export kustomization" class="md-nav__link">
+      Export kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_helmrelease/" title="Export helmrelease" class="md-nav__link">
+      Export helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source/" title="Export source" class="md-nav__link">
+      Export source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_git/" title="Export source git" class="md-nav__link">
+      Export source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_helm/" title="Export source helm" class="md-nav__link">
+      Export source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get/" title="Get" class="md-nav__link">
+      Get
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_kustomizations/" title="Get kustomizations" class="md-nav__link">
+      Get kustomizations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_helmreleases/" title="Get helmreleases" class="md-nav__link">
+      Get helmreleases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources/" title="Get sources" class="md-nav__link">
+      Get sources
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_git/" title="Get sources git" class="md-nav__link">
+      Get sources git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_helm/" title="Get sources helm" class="md-nav__link">
+      Get sources helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_install/" title="Install" class="md-nav__link">
+      Install
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume/" title="Resume" class="md-nav__link">
+      Resume
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_kustomization/" title="Resume kustomization" class="md-nav__link">
+      Resume kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_helmrelease/" title="Resume helmrelease" class="md-nav__link">
+      Resume helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend/" title="Suspend" class="md-nav__link">
+      Suspend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_kustomization/" title="Suspend kustomization" class="md-nav__link">
+      Suspend kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_helmrelease/" title="Suspend helmrelease" class="md-nav__link">
+      Suspend helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile/" title="Reconcile" class="md-nav__link">
+      Reconcile
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_kustomization/" title="Reconcile kustomization" class="md-nav__link">
+      Reconcile kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_helmrelease/" title="Reconcile helmrelease" class="md-nav__link">
+      Reconcile helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source/" title="Reconcile source" class="md-nav__link">
+      Reconcile source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_git/" title="Reconcile source git" class="md-nav__link">
+      Reconcile source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_helm/" title="Reconcile source helm" class="md-nav__link">
+      Reconcile source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_uninstall/" title="Uninstall" class="md-nav__link">
+      Uninstall
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../roadmap/" title="Roadmap" class="md-nav__link">
+      Roadmap
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Dev Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Dev Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Dev Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../dev-guides/source-watcher/" title="Watching for source changes" class="md-nav__link">
+      Watching for source changes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#specification" class="md-nav__link">
+    Specification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#source-reference" class="md-nav__link">
+    Source reference
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generate-kustomizationyaml" class="md-nav__link">
+    Generate kustomization.yaml
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    Reconciliation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#garbage-collection" class="md-nav__link">
+    Garbage collection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#health-assessment" class="md-nav__link">
+    Health assessment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kustomization-dependencies" class="md-nav__link">
+    Kustomization dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-based-access-control" class="md-nav__link">
+    Role-based access control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="kustomization">Kustomization<a class="headerlink" href="#kustomization" title="Permanent link">&para;</a></h1>
+<p>The <code>Kustomization</code> API defines a pipeline for fetching, building, testing and applying Kubernetes manifests.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>A <strong>kustomization</strong> object defines the source of Kubernetes manifests by referencing an object 
+managed by <a href="https://github.com/fluxcd/source-controller">source-controller</a>,
+the path to the kustomization file within that source,
+and the interval at which the kustomize build output is applied on the cluster.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span> <span class="nx">KustomizationSpec</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// A list of kustomization that must be ready before this</span>
+    <span class="c1">// kustomization can be applied.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">DependsOn</span> <span class="p">[]</span><span class="kt">string</span> <span class="s">`json:&quot;dependsOn,omitempty&quot;`</span>
+
+    <span class="c1">// The interval at which to apply the kustomization.</span>
+    <span class="c1">// +required</span>
+    <span class="nx">Interval</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">Duration</span> <span class="s">`json:&quot;interval&quot;`</span>
+
+    <span class="c1">// Path to the directory containing the kustomization file.</span>
+    <span class="c1">// +kubebuilder:validation:Pattern=&quot;^\\./&quot;</span>
+    <span class="c1">// +required</span>
+    <span class="nx">Path</span> <span class="kt">string</span> <span class="s">`json:&quot;path&quot;`</span>
+
+    <span class="c1">// Enables garbage collection.</span>
+    <span class="c1">// +required</span>
+    <span class="nx">Prune</span> <span class="kt">bool</span> <span class="s">`json:&quot;prune&quot;`</span>
+
+    <span class="c1">// A list of workloads (Deployments, DaemonSets and StatefulSets)</span>
+    <span class="c1">// to be included in the health assessment.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">HealthChecks</span> <span class="p">[]</span><span class="nx">WorkloadReference</span> <span class="s">`json:&quot;healthChecks,omitempty&quot;`</span>
+
+    <span class="c1">// The Kubernetes service account used for applying the kustomization.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">ServiceAccount</span> <span class="o">*</span><span class="nx">ServiceAccount</span> <span class="s">`json:&quot;serviceAccount,omitempty&quot;`</span>
+
+    <span class="c1">// Reference of the source where the kustomization file is.</span>
+    <span class="c1">// +required</span>
+    <span class="nx">SourceRef</span> <span class="nx">CrossNamespaceObjectReference</span> <span class="s">`json:&quot;sourceRef&quot;`</span>
+
+    <span class="c1">// This flag tells the controller to suspend subsequent kustomize executions,</span>
+    <span class="c1">// it does not apply to already started executions. Defaults to false.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Suspend</span> <span class="kt">bool</span> <span class="s">`json:&quot;suspend,omitempty&quot;`</span>
+
+    <span class="c1">// Timeout for validation, apply and health checking operations.</span>
+    <span class="c1">// Defaults to &#39;Interval&#39; duration.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Timeout</span> <span class="o">*</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">Duration</span> <span class="s">`json:&quot;timeout,omitempty&quot;`</span>
+
+    <span class="c1">// Validate the Kubernetes objects before applying them on the cluster.</span>
+    <span class="c1">// The validation strategy can be &#39;client&#39; (local dry-run) or &#39;server&#39; (APIServer dry-run).</span>
+    <span class="c1">// +kubebuilder:validation:Enum=client;server</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Validation</span> <span class="kt">string</span> <span class="s">`json:&quot;validation,omitempty&quot;`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The status sub-resource describes the result of the last kustomization execution:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span> <span class="nx">KustomizationStatus</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// ObservedGeneration is the last reconciled generation.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">ObservedGeneration</span> <span class="kt">int64</span> <span class="s">`json:&quot;observedGeneration,omitempty&quot;`</span>
+
+    <span class="c1">// +optional</span>
+    <span class="nx">Conditions</span> <span class="p">[]</span><span class="nx">Condition</span> <span class="s">`json:&quot;conditions,omitempty&quot;`</span>
+
+    <span class="c1">// The last successfully applied revision.</span>
+    <span class="c1">// The revision format for Git sources is &lt;branch|tag&gt;/&lt;commit-sha&gt;.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">LastAppliedRevision</span> <span class="kt">string</span> <span class="s">`json:&quot;lastAppliedRevision,omitempty&quot;`</span>
+
+    <span class="c1">// LastAttemptedRevision is the revision of the last reconciliation attempt.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">LastAttemptedRevision</span> <span class="kt">string</span> <span class="s">`json:&quot;lastAttemptedRevision,omitempty&quot;`</span>
+
+    <span class="c1">// The last successfully applied revision metadata.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Snapshot</span> <span class="o">*</span><span class="nx">Snapshot</span> <span class="s">`json:&quot;snapshot&quot;`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Status condition types:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="p">(</span>
+    <span class="c1">// ReadyCondition represents the fact that a given kustomization has passed</span>
+    <span class="c1">// validation and was successfully applied on the cluster.</span>
+    <span class="nx">ReadyCondition</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;Ready&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>Status condition reasons:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="p">(</span>
+    <span class="c1">// ApplySucceedReason represents the fact that the kustomization apply succeed.</span>
+    <span class="nx">ApplySucceedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;ApplySucceed&quot;</span>
+
+    <span class="c1">// ApplyFailedReason represents the fact that the kustomization apply failed.</span>
+    <span class="nx">ApplyFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;ApplyFailed&quot;</span>
+
+    <span class="c1">// ArtifactFailedReason represents the fact that the artifact download failed.</span>
+    <span class="nx">ArtifactFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;ArtifactFailed&quot;</span>
+
+    <span class="c1">// BuildFailedReason represents the fact that the kustomize build command failed.</span>
+    <span class="nx">BuildFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;BuildFailed&quot;</span>
+
+    <span class="c1">// DependencyNotReady represents the fact that the one of the dependencies is not ready.</span>
+    <span class="nx">DependencyNotReadyReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;DependencyNotReady&quot;</span>
+
+    <span class="c1">// HealthCheckFailedReason represents the fact that the one of the health check failed.</span>
+    <span class="nx">HealthCheckFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;HealthCheckFailed&quot;</span>
+
+    <span class="c1">// InitializedReason represents the fact that a given resource has been initialized.</span>
+    <span class="nx">InitializedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;Initialized&quot;</span>
+
+    <span class="c1">// ProgressingReason represents the fact that a kustomization reconciliation</span>
+    <span class="c1">// is underway.</span>
+    <span class="nx">ProgressingReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;Progressing&quot;</span>
+
+    <span class="c1">// PruneFailedReason represents the fact that the kustomization pruning failed.</span>
+    <span class="nx">PruneFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;PruneFailed&quot;</span>
+
+    <span class="c1">// SuspendedReason represents the fact that the kustomization execution is suspended.</span>
+    <span class="nx">SuspendedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;Suspended&quot;</span>
+
+    <span class="c1">// ValidationFailedReason represents the fact that the dry-run apply failed.</span>
+    <span class="nx">ValidationFailedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;ValidationFailed&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="source-reference">Source reference<a class="headerlink" href="#source-reference" title="Permanent link">&para;</a></h2>
+<p>The kustomization <code>spec.sourceRef</code> is a reference to an object managed by
+<a href="https://github.com/fluxcd/source-controller">source-controller</a>. When the source
+<a href="https://github.com/fluxcd/source-controller/blob/master/docs/spec/v1alpha1/common.md#source-status">revision</a> 
+changes, it generates a Kubernetes event that triggers a kustomize build and apply.</p>
+<p>Source supported types:</p>
+<ul>
+<li><a href="https://github.com/fluxcd/source-controller/blob/master/docs/spec/v1alpha1/gitrepositories.md">GitRepository</a></li>
+</ul>
+<blockquote>
+<p><strong>Note</strong> that the source should contain the kustomization.yaml and all the
+Kubernetes manifests and configuration files referenced in the kustomization.yaml.
+If your repository contains only plain manifests, then you should enable kustomization.yaml generation.</p>
+</blockquote>
+<h2 id="generate-kustomizationyaml">Generate kustomization.yaml<a class="headerlink" href="#generate-kustomizationyaml" title="Permanent link">&para;</a></h2>
+<p>If your repository contains plain Kubernetes manifests, the <code>kustomization.yaml</code>
+file is automatically generated for all the Kubernetes manifests
+in the <code>spec.path</code> and sub-directories.</p>
+<p>If the <code>spec.prune</code> is enable, the controller generates a label transformer to enable
+<a href="#garbage-collection">garbage collection</a>.</p>
+<h2 id="reconciliation">Reconciliation<a class="headerlink" href="#reconciliation" title="Permanent link">&para;</a></h2>
+<p>The kustomization <code>spec.interval</code> tells the controller at which interval to fetch the
+Kubernetes manifest for the source, build the kustomization and apply it on the cluster.
+The interval time units are <code>s</code>, <code>m</code> and <code>h</code> e.g. <code>interval: 5m</code>, the minimum value should be over 60 seconds.</p>
+<p>The kustomization execution can be suspended by setting <code>spec.susped</code> to <code>true</code>.</p>
+<p>The controller can be told to reconcile the kustomization outside of the specified interval
+by annotating the kustomization object with:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="p">(</span>
+    <span class="c1">// ReconcileAtAnnotation is the annotation used for triggering a</span>
+    <span class="c1">// reconciliation outside of the defined schedule.</span>
+    <span class="nx">ReconcileAtAnnotation</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;fluxcd.io/reconcileAt&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>On-demand execution example:</p>
+<div class="highlight"><pre><span></span><code>kubectl annotate --overwrite kustomization/podinfo fluxcd.io/reconcileAt<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h2 id="garbage-collection">Garbage collection<a class="headerlink" href="#garbage-collection" title="Permanent link">&para;</a></h2>
+<p>To enable garbage collection, set <code>spec.prune</code> to <code>true</code>.</p>
+<p>Garbage collection means that the Kubernetes objects that were previously applied on the cluster
+but are missing from the current source revision, are removed from cluster automatically.
+Garbage collection is also performed when a Kustomization object is deleted,
+triggering a removal of all Kubernetes objects previously applied on the cluster.</p>
+<h2 id="health-assessment">Health assessment<a class="headerlink" href="#health-assessment" title="Permanent link">&para;</a></h2>
+<p>A kustomization can contain a series of health checks used to determine the
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#deployment-status">rollout status</a>
+of the deployed workloads. A health check entry can reference one of the following Kubernetes types:
+Deployment, DaemonSet or StatefulSet.</p>
+<p>Assuming the kustomization source contains a Kubernetes Deployment named <code>backend</code>,
+a health check can be defined as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">backend</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./webapp/backend/&quot;</span>
+  <span class="nt">prune</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">healthChecks</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">backend</span>
+      <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">dev</span>
+  <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2m</span>
+</code></pre></div>
+
+<p>After applying the kustomize build output, the controller verifies if the rollout completed successfully.
+If the deployment was successful, the kustomization ready condition is marked as <code>true</code>,
+if the rollout failed, or if it takes more than the specified timeout to complete, then the 
+kustomization ready condition is set to <code>false</code>. If the deployment becomes healthy on the next
+execution, then the kustomization is marked as ready.</p>
+<h2 id="kustomization-dependencies">Kustomization dependencies<a class="headerlink" href="#kustomization-dependencies" title="Permanent link">&para;</a></h2>
+<p>When applying a kustomization, you may need to make sure other resources exist before the
+workloads defined in your kustomization are deployed.
+For example, a namespace must exist before applying resources to it.</p>
+<p>With <code>spec.dependsOn</code> you can specify that the execution of a kustomization follows another.
+When you add <code>dependsOn</code> entries to a kustomization, that kustomization is applied
+only after all of its dependencies are ready. The readiness state of a kustomization is determined by 
+its last apply status condition.</p>
+<p>Assuming two kustomizations:
+* <code>common</code> - contains a namespace and service accounts definitions
+* <code>backend</code> - contains the workloads to be deployed in that namespace</p>
+<p>You can instruct the controller to apply the <code>common</code> kustomization before <code>backend</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">common</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./webapp/common/&quot;</span>
+  <span class="nt">prune</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">backend</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">dependsOn</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">common</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./webapp/backend/&quot;</span>
+  <span class="nt">prune</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+</code></pre></div>
+
+<p>When combined with health assessment, a kustomization will run after all its dependencies health checks are passing.
+For example, a service mesh proxy injector should be running before deploying applications inside the mesh.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">istio</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./profiles/default/&quot;</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">istio</span>
+  <span class="nt">healthChecks</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Deployment</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">istiod</span>
+      <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">istio-system</span>
+  <span class="nt">timeout</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2m</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">backend</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">dependsOn</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">common</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">istio</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./webapp/backend/&quot;</span>
+  <span class="nt">prune</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>Note</strong> that circular dependencies between kustomizations must be avoided, otherwise the
+interdependent kustomizations will never be applied on the cluster.</p>
+</blockquote>
+<h2 id="role-based-access-control">Role-based access control<a class="headerlink" href="#role-based-access-control" title="Permanent link">&para;</a></h2>
+<p>By default, a kustomization apply runs under the cluster admin account and can create, modify, delete
+cluster level objects (namespaces, CRDs, etc) and namespeced objects (deployments, ingresses, etc).
+For certain kustomizations a cluster admin may wish to control what types of Kubernetes objects can
+be reconciled and under which namespaces.
+To restrict a kustomization, one can assign a service account under which the reconciliation is performed.</p>
+<p>Assuming you want to restrict a group of kustomizations to a single namespace, you can create an account
+with a role binding that grants access only to that namespace:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Namespace</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Role</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nt">rules</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">apiGroups</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">]</span>
+    <span class="nt">resources</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">]</span>
+    <span class="nt">verbs</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="s">&#39;*&#39;</span><span class="p p-Indicator">]</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">RoleBinding</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+<span class="nt">roleRef</span><span class="p">:</span>
+  <span class="nt">apiGroup</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+  <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Role</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+<span class="nt">subjects</span><span class="p">:</span>
+<span class="p p-Indicator">-</span> <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>Note</strong> that the namespace, RBAC and service account manifests should be 
+placed in a Git source and applied with a kustomization. The kustomizations that 
+are running under that service account should depend-on the one that contains the account.</p>
+</blockquote>
+<p>Create a kustomization that prevents altering the cluster state outside of the <code>webapp</code> namespace:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomize.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Kustomization</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">backend</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">dependsOn</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">common</span>
+  <span class="nt">serviceAccount</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp-reconciler</span>
+    <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="s">&quot;./webapp/backend/&quot;</span>
+  <span class="nt">prune</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+  <span class="nt">sourceRef</span><span class="p">:</span>
+    <span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">webapp</span>
+</code></pre></div>
+
+<p>When the controller reconciles the <code>frontend-webapp</code> kustomization, it will impersonate the <code>webapp-reconciler</code>
+account. If the kustomization contains cluster level objects like CRDs or objects belonging to a different
+namespace, the reconciliation will fail since the account it runs under has no permissions to alter objects
+outside of the <code>webapp</code> namespace.</p>
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<p>When the controller completes a kustomization apply, reports the result in the <code>status</code> sub-resource.</p>
+<p>A successful reconciliation sets the ready condition to <code>true</code> and updates the revision field:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+  <span class="nt">conditions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">lastTransitionTime</span><span class="p">:</span> <span class="s">&quot;2020-04-23T19:28:48Z&quot;</span>
+    <span class="nt">message</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">kustomization was successfully applied</span>
+    <span class="nt">reason</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ApplySucceed</span>
+    <span class="nt">status</span><span class="p">:</span> <span class="s">&quot;True&quot;</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Ready</span>
+  <span class="nt">lastAppliedRevision</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master/a1afe267b54f38b46b487f6e938a6fd508278c07</span>
+  <span class="nt">lastAttemptedRevision</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master/a1afe267b54f38b46b487f6e938a6fd508278c07</span>
+</code></pre></div>
+
+<p>You can wait for the kustomize controller to complete a reconciliation with:</p>
+<div class="highlight"><pre><span></span><code>kubectl <span class="nb">wait</span> kustomization/backend --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>ready
+</code></pre></div>
+
+<p>The controller logs the Kubernetes objects:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;ts&quot;</span><span class="p">:</span> <span class="mf">1587195448.071468</span><span class="p">,</span>
+  <span class="nt">&quot;logger&quot;</span><span class="p">:</span> <span class="s2">&quot;controllers.Kustomization&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;Kustomization applied in 1.436096591s&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;kustomization&quot;</span><span class="p">:</span> <span class="s2">&quot;default/backend&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;output&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;service/backend&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;deployment.apps/backend&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;horizontalpodautoscaler.autoscaling/backend&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>A failed reconciliation sets the ready condition to <code>false</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+  <span class="nt">conditions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">lastTransitionTime</span><span class="p">:</span> <span class="s">&quot;2020-04-23T19:29:48Z&quot;</span>
+    <span class="nt">message</span><span class="p">:</span> <span class="s">&#39;server-side</span><span class="nv"> </span><span class="s">validation</span><span class="nv"> </span><span class="s">failed&#39;</span>
+    <span class="nt">reason</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ValidationFailed</span>
+    <span class="nt">status</span><span class="p">:</span> <span class="s">&quot;False&quot;</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Ready</span>
+  <span class="nt">lastAppliedRevision</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master/a1afe267b54f38b46b487f6e938a6fd508278c07</span>
+  <span class="nt">lastAttemptedRevision</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master/7c500d302e38e7e4a3f327343a8a5c21acaaeb87</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>Note</strong> that the last applied revision is updated only on a successful reconciliation.</p>
+</blockquote>
+<p>When a reconciliation fails, the controller logs the error:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="nt">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;ts&quot;</span><span class="p">:</span> <span class="mf">1587195448.071468</span><span class="p">,</span>
+  <span class="nt">&quot;logger&quot;</span><span class="p">:</span> <span class="s2">&quot;controllers.Kustomization&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;msg&quot;</span><span class="p">:</span> <span class="s2">&quot;server-side validation failed&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;kustomization&quot;</span><span class="p">:</span> <span class="s2">&quot;default/backend&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;The Service &#39;backend&#39; is invalid: spec.type: Unsupported value: &#39;Ingress&#39;&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../controller/" title="Overview" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../api/" title="Kustomize API Reference" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Kustomize API Reference
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

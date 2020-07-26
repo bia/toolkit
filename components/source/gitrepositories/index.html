@@ -1,0 +1,1894 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+      
+      
+        <link rel="canonical" href="https://toolkit.fluxcd.io/components/source/gitrepositories/">
+      
+      
+        <meta name="author" content="The Flux CD contributors">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
+    
+    
+      
+        <title>GitRepository CRD - GitOps Toolkit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.89dc9fe3.min.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../_static/custom.css">
+    
+    
+      
+    
+    
+
+<meta property="og:url" content="https://toolkit.fluxcd.io/components/source/gitrepositories/">
+
+<meta property="og:title" content="GitRepository CRD - GitOps Toolkit">
+
+<meta property="og:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta property="og:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta property="og:image:alt" content="GitOps Toolkit">
+<meta property="og:image:type" content="image/png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@stefanprodan">
+<meta name="twitter:creator" content="@stefanprodan">
+
+<meta property="twitter:title" content="GitRepository CRD - GitOps Toolkit">
+
+<meta name="twitter:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta name="twitter:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta name="twitter:image:alt" content="GitOps Toolkit">
+
+
+  </head>
+  
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git-repositories" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-header-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            GitOps Toolkit
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              GitRepository CRD
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    GitOps Toolkit
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../get-started/" title="Get Started" class="md-nav__link">
+      Get Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/helmreleases/" title="Manage Helm Releases" class="md-nav__link">
+      Manage Helm Releases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/notifications/" title="Setup Notifications" class="md-nav__link">
+      Setup Notifications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/webhook-receivers/" title="Setup Webhook Receivers" class="md-nav__link">
+      Setup Webhook Receivers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/sealed-secrets/" title="Sealed Secrets" class="md-nav__link">
+      Sealed Secrets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Toolkit Components
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit Components" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit Components
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1" checked>
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Source Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Source Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Source Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        GitRepository CRD
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="GitRepository CRD" class="md-nav__link md-nav__link--active">
+      GitRepository CRD
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#specification" class="md-nav__link">
+    Specification
+  </a>
+  
+    <nav class="md-nav" aria-label="Specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition-reasons" class="md-nav__link">
+    Condition reasons
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    Artifact
+  </a>
+  
+    <nav class="md-nav" aria-label="Artifact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excluding-files" class="md-nav__link">
+    Excluding files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spec-examples" class="md-nav__link">
+    Spec examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-examples" class="md-nav__link">
+    Status examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../helmrepositories/" title="HelmRepository CRD" class="md-nav__link">
+      HelmRepository CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../helmcharts/" title="HelmChart CRD" class="md-nav__link">
+      HelmChart CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/" title="Source API Reference" class="md-nav__link">
+      Source API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Kustomize Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Kustomize Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Kustomize Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/kustomization/" title="Kustomization CRD" class="md-nav__link">
+      Kustomization CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/api/" title="Kustomize API Reference" class="md-nav__link">
+      Kustomize API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Helm Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Helm Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Helm Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/helmreleases/" title="HelmRelease CRD" class="md-nav__link">
+      HelmRelease CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../helm/api/" title="Helm API Reference" class="md-nav__link">
+      Helm API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      Notification Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Notification Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Notification Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/event/" title="Event" class="md-nav__link">
+      Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/provider/" title="Provider CRD" class="md-nav__link">
+      Provider CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/alert/" title="Alert CRD" class="md-nav__link">
+      Alert CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/receiver/" title="Receiver CRD" class="md-nav__link">
+      Receiver CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/api/" title="Notification API Reference" class="md-nav__link">
+      Notification API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Toolkit CLI
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit CLI" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit CLI
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap/" title="Bootstrap" class="md-nav__link">
+      Bootstrap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_github/" title="Bootstrap github" class="md-nav__link">
+      Bootstrap github
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_gitlab/" title="Bootstrap gitlab" class="md-nav__link">
+      Bootstrap gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_check/" title="Check" class="md-nav__link">
+      Check
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create/" title="Create" class="md-nav__link">
+      Create
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_kustomization/" title="Create kustomization" class="md-nav__link">
+      Create kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_helmrelease/" title="Create helmrelease" class="md-nav__link">
+      Create helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source/" title="Create source" class="md-nav__link">
+      Create source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_git/" title="Create source git" class="md-nav__link">
+      Create source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_helm/" title="Create source helm" class="md-nav__link">
+      Create source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete/" title="Delete" class="md-nav__link">
+      Delete
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_kustomization/" title="Delete kustomization" class="md-nav__link">
+      Delete kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_helmrelease/" title="Delete helmrelease" class="md-nav__link">
+      Delete helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source/" title="Delete source" class="md-nav__link">
+      Delete source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_git/" title="Delete source git" class="md-nav__link">
+      Delete source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_helm/" title="Delete source helm" class="md-nav__link">
+      Delete source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export/" title="Export" class="md-nav__link">
+      Export
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_kustomization/" title="Export kustomization" class="md-nav__link">
+      Export kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_helmrelease/" title="Export helmrelease" class="md-nav__link">
+      Export helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source/" title="Export source" class="md-nav__link">
+      Export source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_git/" title="Export source git" class="md-nav__link">
+      Export source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_helm/" title="Export source helm" class="md-nav__link">
+      Export source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get/" title="Get" class="md-nav__link">
+      Get
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_kustomizations/" title="Get kustomizations" class="md-nav__link">
+      Get kustomizations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_helmreleases/" title="Get helmreleases" class="md-nav__link">
+      Get helmreleases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources/" title="Get sources" class="md-nav__link">
+      Get sources
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_git/" title="Get sources git" class="md-nav__link">
+      Get sources git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_helm/" title="Get sources helm" class="md-nav__link">
+      Get sources helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_install/" title="Install" class="md-nav__link">
+      Install
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume/" title="Resume" class="md-nav__link">
+      Resume
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_kustomization/" title="Resume kustomization" class="md-nav__link">
+      Resume kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_helmrelease/" title="Resume helmrelease" class="md-nav__link">
+      Resume helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend/" title="Suspend" class="md-nav__link">
+      Suspend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_kustomization/" title="Suspend kustomization" class="md-nav__link">
+      Suspend kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_helmrelease/" title="Suspend helmrelease" class="md-nav__link">
+      Suspend helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile/" title="Reconcile" class="md-nav__link">
+      Reconcile
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_kustomization/" title="Reconcile kustomization" class="md-nav__link">
+      Reconcile kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_helmrelease/" title="Reconcile helmrelease" class="md-nav__link">
+      Reconcile helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source/" title="Reconcile source" class="md-nav__link">
+      Reconcile source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_git/" title="Reconcile source git" class="md-nav__link">
+      Reconcile source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_helm/" title="Reconcile source helm" class="md-nav__link">
+      Reconcile source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_uninstall/" title="Uninstall" class="md-nav__link">
+      Uninstall
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../roadmap/" title="Roadmap" class="md-nav__link">
+      Roadmap
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Dev Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Dev Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Dev Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../dev-guides/source-watcher/" title="Watching for source changes" class="md-nav__link">
+      Watching for source changes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#specification" class="md-nav__link">
+    Specification
+  </a>
+  
+    <nav class="md-nav" aria-label="Specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    Status
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condition-reasons" class="md-nav__link">
+    Condition reasons
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#artifact" class="md-nav__link">
+    Artifact
+  </a>
+  
+    <nav class="md-nav" aria-label="Artifact">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#excluding-files" class="md-nav__link">
+    Excluding files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spec-examples" class="md-nav__link">
+    Spec examples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-examples" class="md-nav__link">
+    Status examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1 id="git-repositories">Git Repositories<a class="headerlink" href="#git-repositories" title="Permanent link">&para;</a></h1>
+<p>The <code>GitRepository</code> API defines a source for artifacts coming from Git. The
+resource exposes the latest synchronized state from Git as an artifact in a
+<a href="#artifact">gzip compressed TAR archive</a>.</p>
+<h2 id="specification">Specification<a class="headerlink" href="#specification" title="Permanent link">&para;</a></h2>
+<p>Git repository:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// GitRepositorySpec gives the specification for fetching a Git repository as</span>
+<span class="c1">// a source.</span>
+<span class="kd">type</span> <span class="nx">GitRepositorySpec</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// The repository URL, can be a HTTP or SSH address.</span>
+    <span class="c1">// +kubebuilder:validation:Pattern=&quot;^(http|https|ssh)://&quot;</span>
+    <span class="nx">URL</span> <span class="kt">string</span> <span class="s">`json:&quot;url&quot;`</span>
+
+    <span class="c1">// The secret name containing the Git credentials.</span>
+    <span class="c1">// For HTTPS repositories the secret must contain username and password</span>
+    <span class="c1">// fields.</span>
+    <span class="c1">// For SSH repositories the secret must contain identity, identity.pub and</span>
+    <span class="c1">// known_hosts fields.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">SecretRef</span> <span class="o">*</span><span class="nx">v1</span><span class="p">.</span><span class="nx">LocalObjectReference</span> <span class="s">`json:&quot;secretRef,omitempty&quot;`</span>
+
+    <span class="c1">// The interval at which to check for repository updates.</span>
+    <span class="nx">Interval</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">Duration</span> <span class="s">`json:&quot;interval&quot;`</span>
+
+    <span class="c1">// The timeout for remote git operations like cloning, default to 20s.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Timeout</span> <span class="o">*</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">Duration</span> <span class="s">`json:&quot;timeout,omitempty&quot;`</span>
+
+    <span class="c1">// The git reference to checkout and monitor for changes, defaults to</span>
+    <span class="c1">// master branch.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Reference</span> <span class="o">*</span><span class="nx">GitRepositoryRef</span> <span class="s">`json:&quot;ref,omitempty&quot;`</span>
+
+    <span class="c1">// Verify OpenPGP signature for the commit that HEAD points to.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Verification</span> <span class="o">*</span><span class="nx">GitRepositoryVerification</span> <span class="s">`json:&quot;verify,omitempty&quot;`</span>
+
+    <span class="c1">// Ignore overrides the set of excluded patterns in the .sourceignore</span>
+    <span class="c1">// format (which is the same as .gitignore). If not provided, a default will</span>
+    <span class="c1">// be used, consult the documentation for your version to find out what those</span>
+    <span class="c1">// are.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Ignore</span> <span class="o">*</span><span class="kt">string</span> <span class="s">`json:&quot;ignore,omitempty&quot;`</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Git repository reference:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// GitRepositoryRef defines the git ref used for pull and checkout operations.</span>
+<span class="kd">type</span> <span class="nx">GitRepositoryRef</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// The git branch to checkout, defaults to master.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Branch</span> <span class="kt">string</span> <span class="s">`json:&quot;branch,omitempty&quot;`</span>
+
+    <span class="c1">// The git tag to checkout, takes precedence over branch.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Tag</span> <span class="kt">string</span> <span class="s">`json:&quot;tag,omitempty&quot;`</span>
+
+    <span class="c1">// The git tag semver expression, takes precedence over tag.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">SemVer</span> <span class="kt">string</span> <span class="s">`json:&quot;semver,omitempty&quot;`</span>
+
+    <span class="c1">// The git commit sha to checkout, if specified tag filters will be ignored.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Commit</span> <span class="kt">string</span> <span class="s">`json:&quot;commit,omitempty&quot;`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Git repository cryptographic provenance verification:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// GitRepositoryVerification defines the OpenPGP signature verification process.</span>
+<span class="kd">type</span> <span class="nx">GitRepositoryVerification</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// Mode describes what git object should be verified, currently (&#39;head&#39;).</span>
+    <span class="c1">// +kubebuilder:validation:Enum=head</span>
+    <span class="nx">Mode</span> <span class="kt">string</span> <span class="s">`json:&quot;mode&quot;`</span>
+
+    <span class="c1">// The secret name containing the public keys of all trusted git authors.</span>
+    <span class="nx">SecretRef</span> <span class="nx">corev1</span><span class="p">.</span><span class="nx">LocalObjectReference</span> <span class="s">`json:&quot;secretRef&quot;`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// GitRepositoryStatus defines the observed state of the GitRepository.</span>
+<span class="kd">type</span> <span class="nx">GitRepositoryStatus</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Conditions</span> <span class="p">[]</span><span class="nx">SourceCondition</span> <span class="s">`json:&quot;conditions,omitempty&quot;`</span>
+
+    <span class="c1">// URL is the download link for the artifact output of the last repository</span>
+    <span class="c1">// sync.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">URL</span> <span class="kt">string</span> <span class="s">`json:&quot;url,omitempty&quot;`</span>
+
+    <span class="c1">// Artifact represents the output of the last successful repository sync.</span>
+    <span class="c1">// +optional</span>
+    <span class="nx">Artifact</span> <span class="o">*</span><span class="nx">Artifact</span> <span class="s">`json:&quot;artifact,omitempty&quot;`</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="condition-reasons">Condition reasons<a class="headerlink" href="#condition-reasons" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span> <span class="p">(</span>
+    <span class="c1">// GitOperationSucceedReason represents the fact that the git</span>
+    <span class="c1">// clone, pull and checkout operations succeeded.</span>
+    <span class="nx">GitOperationSucceedReason</span> <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;GitOperationSucceed&quot;</span>
+
+    <span class="c1">// GitOperationFailedReason represents the fact that the git</span>
+    <span class="c1">// clone, pull or checkout operations failed.</span>
+    <span class="nx">GitOperationFailedReason</span>  <span class="kt">string</span> <span class="p">=</span> <span class="s">&quot;GitOperationFailed&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="artifact">Artifact<a class="headerlink" href="#artifact" title="Permanent link">&para;</a></h2>
+<p>The <code>GitRepository</code> API defines a source for artifacts coming from Git. The
+resource exposes the latest synchronized state from Git as an artifact in a
+gzip compressed TAR archive (<code>&lt;commit hash&gt;.tar.gz</code>).</p>
+<h3 id="excluding-files">Excluding files<a class="headerlink" href="#excluding-files" title="Permanent link">&para;</a></h3>
+<p>Git files (<code>.git/</code>, <code>.gitignore</code>, <code>.gitmodules</code>, and <code>.gitattributes</code>) are
+excluded from the archive by default, as well as some extensions (<code>.jpg, .jpeg,
+.gif, .png, .wmv, .flv, .tar.gz, .zip</code>)</p>
+<p>Excluding additional files from the archive is possible by adding a
+<code>.sourceignore</code> file in the root of the repository. The <code>.sourceignore</code> file
+follows <a href="https://git-scm.com/docs/gitignore#_pattern_format">the <code>.gitignore</code> pattern
+format</a>, pattern
+entries may overrule default exclusions.</p>
+<p>Another option is to use the <code>spec.ignore</code> field, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ignore</span><span class="p">:</span> <span class="p p-Indicator">|</span>
+    <span class="no"># exclude all</span>
+    <span class="no">/*</span>
+    <span class="no"># include deploy dir</span>
+    <span class="no">!/deploy</span>
+    <span class="no"># exclude file extensions from deploy dir</span>
+    <span class="no">/deploy/**/*.md</span>
+    <span class="no">/deploy/**/*.txt</span>
+</code></pre></div>
+
+<p>When specified, <code>spec.ignore</code> overrides the default exclusion list.</p>
+<h2 id="spec-examples">Spec examples<a class="headerlink" href="#spec-examples" title="Permanent link">&para;</a></h2>
+<p>Pull the master branch of a public repository every minute:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+</code></pre></div>
+
+<p>Pull a specific branch:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ref</span><span class="p">:</span>
+    <span class="nt">branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v3.x</span>
+</code></pre></div>
+
+<p>Checkout a specific commit from a branch:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ref</span><span class="p">:</span>
+    <span class="nt">branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+    <span class="nt">commit</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">363a6a8fe6a7f13e05d34c163b0ef02a777da20a</span>
+</code></pre></div>
+
+<p>Pull a specific tag:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ref</span><span class="p">:</span>
+    <span class="nt">tag</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.2.0</span>
+</code></pre></div>
+
+<p>Pull tag based on a <a href="https://github.com/blang/semver#ranges">semver range</a>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ref</span><span class="p">:</span>
+    <span class="nt">semver</span><span class="p">:</span> <span class="s">&quot;&gt;=3.1.0-rc.1</span><span class="nv"> </span><span class="s">&lt;3.2.0&quot;</span>
+</code></pre></div>
+
+<p>HTTPS authentication (requires a secret with <code>username</code> and <code>password</code> fields):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">secretRef</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https-credentials</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https-credentials</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">data</span><span class="p">:</span>
+  <span class="nt">username</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+  <span class="nt">password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+</code></pre></div>
+
+<p>SSH authentication (requires a secret with <code>identity</code> and <code>known_hosts</code> fields):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ssh://git@github.com/stefanprodan/podinfo</span>
+  <span class="nt">secretRef</span><span class="p">:</span>
+    <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ssh-credentials</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ssh-credentials</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">data</span><span class="p">:</span>
+  <span class="nt">identity</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+  <span class="nt">identity.pub</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+  <span class="nt">known_hosts</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+</code></pre></div>
+
+<blockquote>
+<p><strong>Note:</strong> that the SSH address does not support SCP syntax. The URL format is
+<code>ssh://user@host:port/org/repository</code>.</p>
+</blockquote>
+<p>Example of generating the SSH credentials secret:</p>
+<div class="highlight"><pre><span></span><code>ssh-keygen -q -N <span class="s2">&quot;&quot;</span> -f ./identity
+ssh-keyscan github.com &gt; ./known_hosts
+
+kubectl create secret generic ssh-credentials <span class="se">\</span>
+    --from-file<span class="o">=</span>./identity <span class="se">\</span>
+    --from-file<span class="o">=</span>./identity.pub <span class="se">\</span>
+    --from-file<span class="o">=</span>./known_hosts
+</code></pre></div>
+
+<p>Verify the OpenPGP signature for the commit that master branch HEAD points to:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">source.fluxcd.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitRepository</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">podinfo</span>
+<span class="nt">spec</span><span class="p">:</span>
+  <span class="nt">interval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1m</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">https://github.com/stefanprodan/podinfo</span>
+  <span class="nt">ref</span><span class="p">:</span>
+    <span class="nt">branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+  <span class="nt">verify</span><span class="p">:</span>
+    <span class="nt">mode</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">head</span>
+    <span class="nt">secretRef</span><span class="p">:</span>
+      <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pgp-public-keys</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pgp-public-keys</span>
+  <span class="nt">namespace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+<span class="nt">data</span><span class="p">:</span>
+  <span class="nt">author1.asc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+  <span class="nt">author2.asc</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;BASE64&gt;</span> 
+</code></pre></div>
+
+<p>Example of generating the PGP public keys secret:</p>
+<div class="highlight"><pre><span></span><code>gpg --export --armor 3CB12BA185C47B67 &gt; author1.asc
+gpg --export --armor 6A7436E8790F8689 &gt; author2.asc
+
+kubectl create secret generic pgp-public-keys <span class="se">\</span>
+    --from-file<span class="o">=</span>author1.asc <span class="se">\</span>
+    --from-file<span class="o">=</span>author2.asc
+</code></pre></div>
+
+<h2 id="status-examples">Status examples<a class="headerlink" href="#status-examples" title="Permanent link">&para;</a></h2>
+<p>Successful sync:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+  <span class="nt">artifact</span><span class="p">:</span>
+    <span class="nt">lastUpdateTime</span><span class="p">:</span> <span class="s">&quot;2020-04-07T06:59:23Z&quot;</span>
+    <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">/data/gitrepository/default/podinfo/363a6a8fe6a7f13e05d34c163b0ef02a777da20a.tar.gz</span>
+    <span class="nt">revision</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master/363a6a8fe6a7f13e05d34c163b0ef02a777da20a</span>
+    <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http://&lt;host&gt;/gitrepository/default/podinfo/363a6a8fe6a7f13e05d34c163b0ef02a777da20a.tar.gz</span>
+  <span class="nt">conditions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">lastTransitionTime</span><span class="p">:</span> <span class="s">&quot;2020-04-07T06:59:23Z&quot;</span>
+    <span class="nt">message</span><span class="p">:</span> <span class="s">&#39;Git</span><span class="nv"> </span><span class="s">repoistory</span><span class="nv"> </span><span class="s">artifacts</span><span class="nv"> </span><span class="s">are</span><span class="nv"> </span><span class="s">available</span><span class="nv"> </span><span class="s">at:</span>
+      <span class="s">/data/gitrepository/default/podinfo/363a6a8fe6a7f13e05d34c163b0ef02a777da20a.tar.gz&#39;</span>
+    <span class="nt">reason</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">GitOperationSucceed</span>
+    <span class="nt">status</span><span class="p">:</span> <span class="s">&quot;True&quot;</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Ready</span>
+  <span class="nt">url</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http://&lt;host&gt;/gitrepository/default/podinfo/latest.tar.gz</span>
+</code></pre></div>
+
+<p>Failed authentication:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+  <span class="nt">conditions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">lastTransitionTime</span><span class="p">:</span> <span class="s">&quot;2020-04-06T06:48:59Z&quot;</span>
+    <span class="nt">message</span><span class="p">:</span> <span class="s">&#39;git</span><span class="nv"> </span><span class="s">clone</span><span class="nv"> </span><span class="s">error</span><span class="nv"> </span><span class="s">ssh:</span><span class="nv"> </span><span class="s">handshake</span><span class="nv"> </span><span class="s">failed:</span><span class="nv"> </span><span class="s">ssh:</span><span class="nv"> </span><span class="s">unable</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">authenticate,</span>
+      <span class="s">attempted</span><span class="nv"> </span><span class="s">methods</span><span class="nv"> </span><span class="s">[none</span><span class="nv"> </span><span class="s">publickey],</span><span class="nv"> </span><span class="s">no</span><span class="nv"> </span><span class="s">supported</span><span class="nv"> </span><span class="s">methods</span><span class="nv"> </span><span class="s">remain&#39;</span>
+    <span class="nt">reason</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">AuthenticationFailed</span>
+    <span class="nt">status</span><span class="p">:</span> <span class="s">&quot;False&quot;</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Ready</span>
+</code></pre></div>
+
+<p>Failed PGP signature verification:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+  <span class="nt">conditions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">lastTransitionTime</span><span class="p">:</span> <span class="s">&quot;2020-04-06T06:48:59Z&quot;</span>
+    <span class="nt">message</span><span class="p">:</span> <span class="s">&#39;PGP</span><span class="nv"> </span><span class="s">signature</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">{Stefan</span><span class="nv"> </span><span class="s">Prodan</span><span class="nv"> </span><span class="s">2020-04-04</span><span class="nv"> </span><span class="s">13:36:58</span><span class="nv"> </span><span class="s">+0300</span><span class="nv"> </span><span class="s">+0300}</span><span class="nv"> </span><span class="s">can</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">verified&#39;</span>
+    <span class="nt">reason</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">VerificationFailed</span>
+    <span class="nt">status</span><span class="p">:</span> <span class="s">&quot;False&quot;</span>
+    <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Ready</span>
+</code></pre></div>
+
+<p>Wait for ready condition:</p>
+<div class="highlight"><pre><span></span><code>kubectl <span class="nb">wait</span> gitrepository/podinfo --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>ready --timeout<span class="o">=</span>1m
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../controller/" title="Overview" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Overview
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../helmrepositories/" title="HelmRepository CRD" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                HelmRepository CRD
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2661 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+      
+      
+        <link rel="canonical" href="https://toolkit.fluxcd.io/components/helm/api/">
+      
+      
+        <meta name="author" content="The Flux CD contributors">
+      
+      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.0">
+    
+    
+      
+        <title>Helm API Reference - GitOps Toolkit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.89dc9fe3.min.css">
+      
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecd4686e.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../_static/custom.css">
+    
+    
+      
+    
+    
+
+<meta property="og:url" content="https://toolkit.fluxcd.io/components/helm/api/">
+
+<meta property="og:title" content="Helm API Reference - GitOps Toolkit">
+
+<meta property="og:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta property="og:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta property="og:image:alt" content="GitOps Toolkit">
+<meta property="og:image:type" content="image/png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@stefanprodan">
+<meta name="twitter:creator" content="@stefanprodan">
+
+<meta property="twitter:title" content="Helm API Reference - GitOps Toolkit">
+
+<meta name="twitter:description" content="A toolkit for assembling GitOps pipelines on Kubernetes">
+<meta name="twitter:image" content="https://toolkit.fluxcd.io/_files/toolkit-icon.png">
+<meta name="twitter:image:alt" content="GitOps Toolkit">
+
+
+  </head>
+  
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="indigo">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-header-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            GitOps Toolkit
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Helm API Reference
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://toolkit.fluxcd.io" title="GitOps Toolkit" class="md-nav__button md-logo" aria-label="GitOps Toolkit">
+      
+  <img src="../../../_files/flux-icon@2x.png" alt="logo">
+
+    </a>
+    GitOps Toolkit
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/fluxcd/toolkit" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    fluxcd/toolkit
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../get-started/" title="Get Started" class="md-nav__link">
+      Get Started
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/helmreleases/" title="Manage Helm Releases" class="md-nav__link">
+      Manage Helm Releases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/notifications/" title="Setup Notifications" class="md-nav__link">
+      Setup Notifications
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/webhook-receivers/" title="Setup Webhook Receivers" class="md-nav__link">
+      Setup Webhook Receivers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../guides/sealed-secrets/" title="Sealed Secrets" class="md-nav__link">
+      Sealed Secrets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+    
+    <label class="md-nav__link" for="nav-4">
+      Toolkit Components
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit Components" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit Components
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-1" type="checkbox" id="nav-4-1">
+    
+    <label class="md-nav__link" for="nav-4-1">
+      Source Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Source Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Source Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/gitrepositories/" title="GitRepository CRD" class="md-nav__link">
+      GitRepository CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/helmrepositories/" title="HelmRepository CRD" class="md-nav__link">
+      HelmRepository CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/helmcharts/" title="HelmChart CRD" class="md-nav__link">
+      HelmChart CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../source/api/" title="Source API Reference" class="md-nav__link">
+      Source API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-2" type="checkbox" id="nav-4-2">
+    
+    <label class="md-nav__link" for="nav-4-2">
+      Kustomize Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Kustomize Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Kustomize Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/kustomization/" title="Kustomization CRD" class="md-nav__link">
+      Kustomization CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../kustomize/api/" title="Kustomize API Reference" class="md-nav__link">
+      Kustomize API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3" checked>
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Helm Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Helm Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Helm Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../helmreleases/" title="HelmRelease CRD" class="md-nav__link">
+      HelmRelease CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="./" title="Helm API Reference" class="md-nav__link md-nav__link--active">
+      Helm API Reference
+    </a>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4-4" type="checkbox" id="nav-4-4">
+    
+    <label class="md-nav__link" for="nav-4-4">
+      Notification Controller
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Notification Controller" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Notification Controller
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/controller/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/event/" title="Event" class="md-nav__link">
+      Event
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/provider/" title="Provider CRD" class="md-nav__link">
+      Provider CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/alert/" title="Alert CRD" class="md-nav__link">
+      Alert CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/receiver/" title="Receiver CRD" class="md-nav__link">
+      Receiver CRD
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notification/api/" title="Notification API Reference" class="md-nav__link">
+      Notification API Reference
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Toolkit CLI
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Toolkit CLI" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Toolkit CLI
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk/" title="Overview" class="md-nav__link">
+      Overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap/" title="Bootstrap" class="md-nav__link">
+      Bootstrap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_github/" title="Bootstrap github" class="md-nav__link">
+      Bootstrap github
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_bootstrap_gitlab/" title="Bootstrap gitlab" class="md-nav__link">
+      Bootstrap gitlab
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_check/" title="Check" class="md-nav__link">
+      Check
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create/" title="Create" class="md-nav__link">
+      Create
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_kustomization/" title="Create kustomization" class="md-nav__link">
+      Create kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_helmrelease/" title="Create helmrelease" class="md-nav__link">
+      Create helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source/" title="Create source" class="md-nav__link">
+      Create source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_git/" title="Create source git" class="md-nav__link">
+      Create source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_create_source_helm/" title="Create source helm" class="md-nav__link">
+      Create source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete/" title="Delete" class="md-nav__link">
+      Delete
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_kustomization/" title="Delete kustomization" class="md-nav__link">
+      Delete kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_helmrelease/" title="Delete helmrelease" class="md-nav__link">
+      Delete helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source/" title="Delete source" class="md-nav__link">
+      Delete source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_git/" title="Delete source git" class="md-nav__link">
+      Delete source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_delete_source_helm/" title="Delete source helm" class="md-nav__link">
+      Delete source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export/" title="Export" class="md-nav__link">
+      Export
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_kustomization/" title="Export kustomization" class="md-nav__link">
+      Export kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_helmrelease/" title="Export helmrelease" class="md-nav__link">
+      Export helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source/" title="Export source" class="md-nav__link">
+      Export source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_git/" title="Export source git" class="md-nav__link">
+      Export source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_export_source_helm/" title="Export source helm" class="md-nav__link">
+      Export source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get/" title="Get" class="md-nav__link">
+      Get
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_kustomizations/" title="Get kustomizations" class="md-nav__link">
+      Get kustomizations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_helmreleases/" title="Get helmreleases" class="md-nav__link">
+      Get helmreleases
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources/" title="Get sources" class="md-nav__link">
+      Get sources
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_git/" title="Get sources git" class="md-nav__link">
+      Get sources git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_get_sources_helm/" title="Get sources helm" class="md-nav__link">
+      Get sources helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_install/" title="Install" class="md-nav__link">
+      Install
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume/" title="Resume" class="md-nav__link">
+      Resume
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_kustomization/" title="Resume kustomization" class="md-nav__link">
+      Resume kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_resume_helmrelease/" title="Resume helmrelease" class="md-nav__link">
+      Resume helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend/" title="Suspend" class="md-nav__link">
+      Suspend
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_kustomization/" title="Suspend kustomization" class="md-nav__link">
+      Suspend kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_suspend_helmrelease/" title="Suspend helmrelease" class="md-nav__link">
+      Suspend helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile/" title="Reconcile" class="md-nav__link">
+      Reconcile
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_kustomization/" title="Reconcile kustomization" class="md-nav__link">
+      Reconcile kustomization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_helmrelease/" title="Reconcile helmrelease" class="md-nav__link">
+      Reconcile helmrelease
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source/" title="Reconcile source" class="md-nav__link">
+      Reconcile source
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_git/" title="Reconcile source git" class="md-nav__link">
+      Reconcile source git
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_reconcile_source_helm/" title="Reconcile source helm" class="md-nav__link">
+      Reconcile source helm
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../cmd/tk_uninstall/" title="Uninstall" class="md-nav__link">
+      Uninstall
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../roadmap/" title="Roadmap" class="md-nav__link">
+      Roadmap
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Dev Guides
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Dev Guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </span>
+        Dev Guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../dev-guides/source-watcher/" title="Watching for source changes" class="md-nav__link">
+      Watching for source changes
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                <h1>HelmRelease API reference</h1>
+
+<p>Packages:</p>
+
+<ul class="simple">
+<li>
+<a href="#helm.fluxcd.io%2fv2alpha1">helm.fluxcd.io/v2alpha1</a>
+</li>
+</ul>
+
+<h2 id="helm.fluxcd.io/v2alpha1">helm.fluxcd.io/v2alpha1</h2>
+
+<p>Package v2alpha1 contains API Schema definitions for the helm v2alpha1 API group</p>
+
+<p>Resource Types:
+<ul class="simple"><li>
+<a href="#helm.fluxcd.io/v2alpha1.HelmRelease">HelmRelease</a>
+</li></ul>
+<h3 id="helm.fluxcd.io/v2alpha1.HelmRelease">HelmRelease
+</h3>
+<p>HelmRelease is the Schema for the helmreleases API</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br>
+string</td>
+<td>
+<code>helm.fluxcd.io/v2alpha1</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>kind</code><br>
+string
+</td>
+<td>
+<code>HelmRelease</code>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code><br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">
+HelmReleaseSpec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>chart</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmChartTemplate">
+HelmChartTemplate
+</a>
+</em>
+</td>
+<td>
+<p>Chart defines the Helm chart name, version and repository.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>interval</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<p>Interval at which to reconcile the Helm release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>suspend</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Suspend tells the reconciler to suspend reconciliation for this HelmRelease,
+it does not apply to already started reconciliations. Defaults to false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>releaseName</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ReleaseName used for the Helm release. Defaults to a composition of
+&lsquo;[TargetNamespace-]Name&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetNamespace</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>TargetNamespace to target when performing operations for the HelmRelease.
+Defaults to the namespace of the HelmRelease.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dependsOn</code><br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DependsOn may contain a list of HelmReleases that must be ready before this
+HelmRelease can be reconciled.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm action. Defaults to &lsquo;5m0s&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maxHistory</code><br>
+<em>
+int
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>MaxHistory is the number of revisions saved by Helm for this release.
+Use &lsquo;0&rsquo; for an unlimited number of revisions; defaults to &lsquo;10&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>install</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Install">
+Install
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Install holds the configuration for Helm install actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>upgrade</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Upgrade">
+Upgrade
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Upgrade holds the configuration for Helm upgrade actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>test</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Test">
+Test
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Test holds the configuration for Helm test actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rollback</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Rollback">
+Rollback
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Rollback holds the configuration for Helm rollback actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>uninstall</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Uninstall">
+Uninstall
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Uninstall holds the configuration for Helm uninstall actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>values</code><br>
+<em>
+k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Values holds the values for this Helm release.</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseStatus">
+HelmReleaseStatus
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Condition">Condition
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseStatus">HelmReleaseStatus</a>)
+</p>
+<p>Condition contains condition information for a HelmRelease.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>type</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Type of the condition, one of (&lsquo;Ready&rsquo;, &lsquo;Install&rsquo;, &lsquo;Upgrade&rsquo;, &lsquo;Test&rsquo;, &lsquo;Rollback&rsquo;, &lsquo;Uninstall&rsquo;).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#conditionstatus-v1-core">
+Kubernetes core/v1.ConditionStatus
+</a>
+</em>
+</td>
+<td>
+<p>Status of the condition, one of (&lsquo;True&rsquo;, &lsquo;False&rsquo;, &lsquo;Unknown&rsquo;).</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastTransitionTime</code><br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#time-v1-meta">
+Kubernetes meta/v1.Time
+</a>
+</em>
+</td>
+<td>
+<p>LastTransitionTime is the timestamp corresponding to the last status
+change of this condition.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>reason</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Reason is a brief machine readable explanation for the condition&rsquo;s last
+transition.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>message</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Message is a human readable description of the details of the last
+transition, complementing reason.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.CrossNamespaceObjectReference">CrossNamespaceObjectReference
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmChartTemplate">HelmChartTemplate</a>)
+</p>
+<p>CrossNamespaceObjectReference contains enough information to let you locate the
+typed referenced object at cluster level.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>APIVersion of the referent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>kind</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Kind of the referent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name of the referent.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>namespace</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Namespace of the referent.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.HelmChartTemplate">HelmChartTemplate
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>HelmChartTemplate defines the template from which the controller
+will generate a HelmChart object in the same namespace as the HelmRepository.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Name of the Helm chart, as made available by the referenced Helm repository.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Version semver expression, defaults to latest when omitted.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceRef</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.CrossNamespaceObjectReference">
+CrossNamespaceObjectReference
+</a>
+</em>
+</td>
+<td>
+<p>The name and namespace of the source HelmRepository the chart is available at.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>interval</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Interval at which to check the Helm repository for chart updates.
+Defaults to &lsquo;HelmReleaseSpec.Interval&rsquo;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmRelease">HelmRelease</a>)
+</p>
+<p>HelmReleaseSpec defines the desired state of HelmRelease.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>chart</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmChartTemplate">
+HelmChartTemplate
+</a>
+</em>
+</td>
+<td>
+<p>Chart defines the Helm chart name, version and repository.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>interval</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<p>Interval at which to reconcile the Helm release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>suspend</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Suspend tells the reconciler to suspend reconciliation for this HelmRelease,
+it does not apply to already started reconciliations. Defaults to false.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>releaseName</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ReleaseName used for the Helm release. Defaults to a composition of
+&lsquo;[TargetNamespace-]Name&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>targetNamespace</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>TargetNamespace to target when performing operations for the HelmRelease.
+Defaults to the namespace of the HelmRelease.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dependsOn</code><br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DependsOn may contain a list of HelmReleases that must be ready before this
+HelmRelease can be reconciled.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm action. Defaults to &lsquo;5m0s&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maxHistory</code><br>
+<em>
+int
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>MaxHistory is the number of revisions saved by Helm for this release.
+Use &lsquo;0&rsquo; for an unlimited number of revisions; defaults to &lsquo;10&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>install</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Install">
+Install
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Install holds the configuration for Helm install actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>upgrade</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Upgrade">
+Upgrade
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Upgrade holds the configuration for Helm upgrade actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>test</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Test">
+Test
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Test holds the configuration for Helm test actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>rollback</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Rollback">
+Rollback
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Rollback holds the configuration for Helm rollback actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>uninstall</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Uninstall">
+Uninstall
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Uninstall holds the configuration for Helm uninstall actions for this release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>values</code><br>
+<em>
+k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Values holds the values for this Helm release.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.HelmReleaseStatus">HelmReleaseStatus
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmRelease">HelmRelease</a>)
+</p>
+<p>HelmReleaseStatus defines the observed state of HelmRelease</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>observedGeneration</code><br>
+<em>
+int64
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>ObservedGeneration is the last reconciled generation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br>
+<em>
+<a href="#helm.fluxcd.io/v2alpha1.Condition">
+[]Condition
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Conditions holds the conditions for the HelmRelease.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastAppliedRevision</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>LastAppliedRevision is the revision of the last successfully applied source.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastAttemptedRevision</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>LastAttemptedRevision is the revision of the last reconciliation attempt.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastReleaseRevision</code><br>
+<em>
+int
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>LastReleaseRevision is the revision of the last successful Helm release.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>helmChart</code><br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>HelmChart is the namespaced name of the HelmChart resource created by
+the controller for the HelmRelease.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>failures</code><br>
+<em>
+int64
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Failures is the reconciliation failure count. It is reset after a successful
+reconciliation.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Install">Install
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>Install holds the configuration for Helm install actions.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm install action. Defaults to
+&lsquo;HelmReleaseSpec.Timeout&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableWait</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableWait disables the waiting for resources to be ready after a
+Helm install has been performed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableHooks</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableHooks prevents hooks from running during the Helm install action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableOpenAPIValidation</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableOpenAPIValidation prevents the Helm install action from
+validating rendered templates against the Kubernetes OpenAPI Schema.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replace</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Replace tells the Helm install action to re-use the &lsquo;ReleaseName&rsquo;, but
+only if that name is a deleted release which remains in the history.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>skipCRDs</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>SkipCRDs tells the Helm install action to not install any CRDs. By default,
+CRDs are installed if not already present.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Rollback">Rollback
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>Rollback holds the configuration for Helm rollback actions.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enable</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable enables Helm rollback actions for this release after an
+Helm install or upgrade action failure.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm rollback action. Defaults to
+&lsquo;HelmReleaseSpec.Timeout&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableWait</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableWait disables the waiting for resources to be ready after a
+Helm rollback has been performed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableHooks</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableHooks prevents hooks from running during the Helm rollback action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>recreate</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Recreate performs pod restarts for the resource if applicable.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>force</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Force forces resource updates through a replacement strategy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>cleanupOnFail</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>CleanupOnFail allows deletion of new resources created during the Helm
+rollback action when it fails.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Test">Test
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>Test holds the configuration for Helm test actions.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enable</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable enables Helm test actions for this release after an
+Helm install or upgrade action has been performed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation
+during the performance of a Helm test action. Defaults to
+&lsquo;HelmReleaseSpec.Timeout&rsquo;.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Uninstall">Uninstall
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>Uninstall holds the configuration for Helm uninstall actions.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm uninstall action. Defaults to
+&lsquo;HelmReleaseSpec.Timeout&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableHooks</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableHooks prevents hooks from running during the Helm rollback action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>keepHistory</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>KeepHistory tells Helm to remove all associated resources and mark the release as
+deleted, but retain the release history.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<h3 id="helm.fluxcd.io/v2alpha1.Unsortable">Unsortable
+(<code>[][]string</code> alias)</h3>
+<h3 id="helm.fluxcd.io/v2alpha1.Upgrade">Upgrade
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#helm.fluxcd.io/v2alpha1.HelmReleaseSpec">HelmReleaseSpec</a>)
+</p>
+<p>Upgrade holds the configuration for Helm upgrade actions.</p>
+<div class="md-typeset__scrollwrap">
+<div class="md-typeset__table">
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>timeout</code><br>
+<em>
+<a href="https://godoc.org/k8s.io/apimachinery/pkg/apis/meta/v1#Duration">
+Kubernetes meta/v1.Duration
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Timeout is the time to wait for any individual Kubernetes operation (like Jobs
+for hooks) during the performance of a Helm upgrade action. Defaults to
+&lsquo;HelmReleaseSpec.Timeout&rsquo;.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maxRetries</code><br>
+<em>
+int
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>MaxRetries is the number of retries that should be attempted on failures before
+bailing. Defaults to &lsquo;0&rsquo;, a negative integer equals to unlimited retries.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableWait</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableWait disables the waiting for resources to be ready after a
+Helm upgrade has been performed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableHooks</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableHooks prevents hooks from running during the Helm upgrade action.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableOpenAPIValidation</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DisableOpenAPIValidation prevents the Helm upgrade action from
+validating rendered templates against the Kubernetes OpenAPI Schema.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>force</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Force forces resource updates through a replacement strategy.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>preserveValues</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>PreserveValues will make Helm reuse the last release&rsquo;s values and merge
+in overrides from &lsquo;Values&rsquo;. Setting this flag makes the HelmRelease
+non-declarative.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>cleanupOnFail</code><br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>CleanupOnFail allows deletion of new resources created during the Helm
+upgrade action when it fails.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="admonition note">
+<p class="last">This page was automatically generated with <code>gen-crd-api-reference-docs</code></p>
+</div></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../helmreleases/" title="HelmRelease CRD" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                HelmRelease CRD
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../../notification/controller/" title="Overview" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Overview
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../assets/javascripts/vendor.36cbf620.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.00c583dd.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../../assets/javascripts/worker/search.7f7c8775.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
